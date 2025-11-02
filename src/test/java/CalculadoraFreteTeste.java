@@ -1,0 +1,34 @@
+import org.example.CalculadoraFrete;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class CalculadoraFreteTeste {
+
+    private final CalculadoraFrete calculadora = new CalculadoraFrete();
+
+    @Test
+    void deveCalcularFreteParaSudesteCom1Kg() {
+        double resultado = calculadora.calcular(1.0, "Sudeste");
+        assertEquals(10.0, resultado);
+    }
+
+    @Test
+    void deveCalcularFreteParaSulComPesoExtra() {
+        double resultado = calculadora.calcular(2.0, "Sul");
+        assertEquals(15.0 + (1 * 2.5), resultado);
+    }
+
+    @Test
+    void deveLancarExcecaoParaPesoZero() {
+        IllegalArgumentException ex = assertThrows(
+                IllegalArgumentException.class,
+                () -> calculadora.calcular(0, "Sudeste")
+        );
+        assertEquals("O peso deve ser maior que zero.", ex.getMessage());
+    }
+
+    @Test
+    void deveLancarExcecaoParaRegiaoVazia() {
+        assertThrows(IllegalArgumentException.class, () -> calculadora.calcular(1, ""));
+    }
+}
